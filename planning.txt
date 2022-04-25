@@ -1,0 +1,32 @@
+Keywords: Threading process, create threads, discover mutexes, Data race, scramble, mutex for printing
+
+Overview: 
+--1 or more philo at round table
+--spaghetti in middle.
+Things they can do- ONLY ONE AT A TIME:
+EAT
+THINK
+SLEEP
+forks: As many as philos
+philo need 2 forks to EAT Left and right-> 2 wont be able to eat, if they smart and dont take 1 fork without being able to take the other
+CYCLE: EAT->SLEEP->THINKING
+ALL NEED TO EAT
+NO SPEAK
+DONT KNOW WHEN OTHER DIE
+
+rules:
+- no global variables
+- args: 
+number_of_philosophers
+time to DIE in milliseconds
+time to eat in milliseconds
+time to sleep in milliseconds
+number of times each philo eat(optional)
+
+LOGS: (no lag more than 10ms)
+
+◦ timestamp_in_ms X has taken a fork
+◦ timestamp_in_ms X is eating
+◦ timestamp_in_ms X is sleeping
+◦ timestamp_in_ms X is thinking
+◦ timestamp_in_ms X died
