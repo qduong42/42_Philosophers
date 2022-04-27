@@ -1,0 +1,1 @@
+1) different return types for different threads, what happens when you join them?if condition for data types?
