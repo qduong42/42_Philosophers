@@ -10,7 +10,7 @@ void* routine() {
 	return (NULL);
 }
 
-int main(int argc, char* argv[]) {
+int main(/* int argc, char* argv[] */) {
     pthread_t p1, p2;
     if (pthread_create(&p1, NULL, &routine, NULL) != 0) {
         return 1;

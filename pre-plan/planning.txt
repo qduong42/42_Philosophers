@@ -1,5 +1,8 @@
 Keywords: Threading process, create threads, discover mutexes, Data race, scramble, mutex for printing, deadlock
-
+MUTEXES:
+1 for each fork
+1 for DIE
+1 for PRINT
 Overview: 
 --1 or more philo at round table
 --spaghetti in middle.
@@ -32,3 +35,16 @@ LOGS: (no lag more than 10ms)
 ◦ timestamp_in_ms X died
 
 New Things: fflush(stdout);
+
+FKTIONS: 
+memset, printf, malloc, free, write,
+usleep, gettimeofday, pthread_create,
+pthread_detach, pthread_join, pthread_mutex_init,
+pthread_mutex_destroy, pthread_mutex_lock,
+pthread_mutex_unlock
+
+Flow: 
+argv check for right number of args
+init philo -> create thread for each philo
+create mutexes->
+ALWAYS CHECK FOR FAILS (for creating thread and for create mutexes, delete/free up to then)
