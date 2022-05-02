@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 10:58:53 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/02 16:35:36 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/02 16:38:33 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ long long	your_time(void);
 ** Threads
 */
 
-int	threads_join(t_struct *info);
-int	threads_start(t_struct *info);
+int			threads_join(t_struct *info);
+int			threads_start(t_struct *info);
+void		*routine(t_philo *philo)
+
 
 # endif
