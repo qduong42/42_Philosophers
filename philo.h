@@ -6,12 +6,12 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 10:58:53 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/02 16:38:33 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/02 17:14:37 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 
 # include <stdio.h>
 # include <pthread.h>
@@ -23,30 +23,25 @@
 
 # define HOW "Use by ./philo philo_num time_to_die time_to_eat time_to_sleep\n"
 
-/*
-**Checks
-*/
-
-int			atoi_n_check(char *argv, int *a);
-int			initial_arg_check(char **argv, t_struct *info);
-
+typedef struct s_struct	t_struct;
 
 typedef struct s_philo
 {
-	int				id; //init_philo
-	long long		lastmeal; //threads start
-	pthread_mutex_t	*left_fork; //init philo
-	pthread_mutex_t	*right_fork; //init philo
-	pthread_t		thread; //stores info from pthread create
+	int					id; //init_philo
+	long long			lastmeal; //threads start
+	pthread_mutex_t		*left_fork; //init philo
+	pthread_mutex_t		*right_fork; //init philo
+	pthread_t			thread; //stores info from pthread create
+	t_struct			*main_struct;
 }				t_philo;
 
-typedef struct s_struct 
+typedef struct s_struct
 {
 	int					philo_num; //set in initial_arg_Check
 	int					time_to_die; //set in initial_arg_Check
 	int					time_to_eat; //set in initial_arg_Check
 	int					time_to_sleep; //set in initial_arg_Check
-	int					meal_amount;  //set in initial_arg_Check
+	int					meal_amount; //set in initial_arg_Check
 	long long			p_start_time; //start time of program -> threads start
 	long long			lag;
 	int					dead;
@@ -55,6 +50,13 @@ typedef struct s_struct
 	pthread_mutex_t		print; //init in create_mutex
 	pthread_mutex_t		death; //init in create_mutex
 }				t_struct;
+
+/*
+**Checks
+*/
+
+int			atoi_n_check(char *argv, int *a);
+int			initial_arg_check(char **argv, t_struct *info);
 
 /*
 **Utils
@@ -70,7 +72,9 @@ long long	your_time(void);
 
 int			threads_join(t_struct *info);
 int			threads_start(t_struct *info);
-void		*routine(t_philo *philo)
+void		*routine(t_philo *philo);
+int			create_mutex(t_struct *info);
+int			init_philo(t_struct *info);
+int			parse_info(t_struct *info);
 
-
-# endif
+#endif
