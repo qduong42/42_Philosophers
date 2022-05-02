@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 19:10:17 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/01 19:45:52 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/02 00:04:22 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void*	routine_2(/* pthread_mutex_t *a */)
 	//pthread_mutex_unlock(a);
 	return (NULL);
 }
+
 int main()
 {
 	pthread_t thread1;
