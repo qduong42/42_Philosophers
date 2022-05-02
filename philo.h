@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 10:58:53 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/02 17:14:37 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/02 20:56:46 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@ typedef struct s_struct	t_struct;
 
 typedef struct s_philo
 {
+	t_struct			*main_struct;
 	int					id; //init_philo
-	long long			lastmeal; //threads start
 	pthread_mutex_t		*left_fork; //init philo
 	pthread_mutex_t		*right_fork; //init philo
+	long long			lastmeal; //threads start & last meal time to calc death
+	int					full;// number of people full
 	pthread_t			thread; //stores info from pthread create
-	t_struct			*main_struct;
 }				t_philo;
 
 typedef struct s_struct
@@ -44,7 +45,7 @@ typedef struct s_struct
 	int					meal_amount; //set in initial_arg_Check
 	long long			p_start_time; //start time of program -> threads start
 	long long			lag;
-	int					dead;
+	int					dead;//dead or not
 	t_philo				*philos;
 	pthread_mutex_t		*fork; //malloced in parse info
 	pthread_mutex_t		print; //init in create_mutex
@@ -67,13 +68,18 @@ void		ft_putendl(char *s);
 long long	your_time(void);
 
 /*
-** Threads
+** Threads & mutexes
 */
 
 int			threads_join(t_struct *info);
 int			threads_start(t_struct *info);
 void		*routine(t_philo *philo);
 int			create_mutex(t_struct *info);
+
+/*
+** initials
+*/
+
 int			init_philo(t_struct *info);
 int			parse_info(t_struct *info);
 

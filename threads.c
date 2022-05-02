@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:34:12 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/02 16:37:59 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/02 17:41:37 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,23 @@ int	threads_start(t_struct *info)
 		pthread_mutex_unlock(&info->print);
 		i++;
 	}
+	return (0);
+}
+
+int	create_mutex(t_struct *info)
+{
+	int	i;
+
+	i = 0;
+	while (i < info->philo_num)
+	{
+		if (pthread_mutex_init(&info->fork[i], NULL) != 0)
+			return (1);
+		i++;
+	}
+	if (pthread_mutex_init(&info->print, NULL) != 0)
+		return (1);
+	if (pthread_mutex_init(&info->death, NULL) != 0)
+		return (1);
 	return (0);
 }
