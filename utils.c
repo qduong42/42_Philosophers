@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/02 16:05:50 by qduong            #+#    #+#             */
+/*   Updated: 2022/05/02 16:32:59 by qduong           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	ft_puterror(char *s)
 {
-	write(STDERR_FILENO, "Error\n", 6);
-	while(*s)
+	write (STDERR_FILENO, "Error\n", 6);
+	while (*s)
 	{
-		(write(STDERR_FILENO, &s, 1));
+		(write (STDERR_FILENO, &s, 1));
 		s++;
 	}
-	write(STDERR_FILENO, "\n", 1);
+	write (STDERR_FILENO, "\n", 1);
 }
 
 void	ft_putendl(char *s)
@@ -28,9 +40,10 @@ void	ft_putendl(char *s)
 
 int	atoi_n_check(char *argv, int *a)
 {
-	int	index;
+	int		index;
+	long	result;
+
 	index = 0;
-	long result;
 	result = 0;
 	if (argv[0] == '-')
 		return (-1);
@@ -47,4 +60,12 @@ int	atoi_n_check(char *argv, int *a)
 	}
 	*a = (int)result;
 	return (0);
+}
+
+long long	your_time(void)
+{
+	_STRUCT_TIMEVAL	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }

@@ -6,13 +6,13 @@
 #    By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/25 19:15:54 by qduong            #+#    #+#              #
-#    Updated: 2022/04/26 11:03:06 by qduong           ###   ########.fr        #
+#    Updated: 2022/05/02 16:36:10 by qduong           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CFLAGS = -Wall -Werror -Wextra
-SRCS = 
+SRCS = philo.c utils.c checks.c main.c threads.c
 OBJS = ${SRCS:.c=.o}
 RM = rm -f
 CC = gcc
@@ -20,7 +20,7 @@ CC = gcc
 all: $(NAME)
 
 $(NAME) : ${OBJS}
-	ar rcs $(NAME) ${OBJS}
+	$(CC) -g $(CFLAGS) -o $(NAME) ${OBJS}
 
 clean:
 	${RM} ${OBJS} $(BONUS_OBJS)

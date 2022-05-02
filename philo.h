@@ -6,19 +6,20 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 10:58:53 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/02 02:41:34 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/02 16:35:36 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 #define PHILO_H
 
-#include <stdio.h>
+# include <stdio.h>
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <sys/time.h>
+# include <limits.h>
 
 # define HOW "Use by ./philo philo_num time_to_die time_to_eat time_to_sleep\n"
 
@@ -26,7 +27,18 @@
 **Checks
 */
 
-int	atoi_n_check(char *argv, int *a);
+int			atoi_n_check(char *argv, int *a);
+int			initial_arg_check(char **argv, t_struct *info);
+
+
+typedef struct s_philo
+{
+	int				id; //init_philo
+	long long		lastmeal; //threads start
+	pthread_mutex_t	*left_fork; //init philo
+	pthread_mutex_t	*right_fork; //init philo
+	pthread_t		thread; //stores info from pthread create
+}				t_philo;
 
 typedef struct s_struct 
 {
@@ -35,19 +47,28 @@ typedef struct s_struct
 	int					time_to_eat; //set in initial_arg_Check
 	int					time_to_sleep; //set in initial_arg_Check
 	int					meal_amount;  //set in initial_arg_Check
+	long long			p_start_time; //start time of program -> threads start
+	long long			lag;
+	int					dead;
 	t_philo				*philos;
 	pthread_mutex_t		*fork; //malloced in parse info
 	pthread_mutex_t		print; //init in create_mutex
 	pthread_mutex_t		death; //init in create_mutex
-	pthread_t			thread; //stores info from pthread create
 }				t_struct;
 
-typedef struct s_philo
-{
-	int				id; //inited
-	int				lastmeal; //init_philo
-	pthread_mutex_t	*left_fork; //init philo
-	pthread_mutex_t	*right_fork; //init philo
-}				t_philo;
+/*
+**Utils
+*/
+
+void		ft_puterror(char *s);
+void		ft_putendl(char *s);
+long long	your_time(void);
+
+/*
+** Threads
+*/
+
+int	threads_join(t_struct *info);
+int	threads_start(t_struct *info);
 
 # endif
