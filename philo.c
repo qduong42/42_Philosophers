@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:37:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/02 22:36:44 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/02 23:11:00 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,15 @@ void	eat(t_philo *philo)
 	{
 	usleep(10);
 	curr = your_time();
-	if (curr - philo->lastmeal >= philo->main_struct->time_to_eat)
-			{
-				pthread_mutex_lock(&(philo->main_struct->death));
-				philo->main_struct->dead = 0;
-				pthread_mutex_unlock(&(philo->main_struct->death));
-				break ;
-			}
+	// if (curr - philo->lastmeal >= philo->main_struct->time_to_eat)
+	// 		{
+	// 			pthread_mutex_lock(&(philo->main_struct->death));
+	// 			philo->main_struct->dead = 1;
+	// 			pthread_mutex_unlock(&(philo->main_struct->death));
+	// 			break ;
+	// 		}
+	// else
+	// {
 	dur = curr - start;
 			// pthread_mutex_lock(&philo->main_struct->print);//
 			// printf("ID:%d dur:%llu tabeteimashita\n", philo->id, dur);//
@@ -64,6 +66,7 @@ void	eat(t_philo *philo)
 	break ;
 	}
 	}
+	//}
 }
 
 void	bed(t_philo *philo)
@@ -76,7 +79,16 @@ void	bed(t_philo *philo)
 	{
 		usleep(10);
 		curr = your_time();
-		dur = curr - start;
+		// if (curr - philo->lastmeal >= philo->main_struct->time_to_eat)
+		// {
+		// 	pthread_mutex_lock(&(philo->main_struct->death));
+		// 	philo->main_struct->dead = 1;
+		// 	pthread_mutex_unlock(&(philo->main_struct->death));
+		// 	break ;
+		// }
+		// else
+		// {
+			dur = curr - start;
 		// pthread_mutex_lock(&philo->main_struct->print);
 		// printf("ID:%d dur:%llu neteimashita\n", philo->id, dur);
 		// pthread_mutex_unlock(&philo->main_struct->print);
@@ -85,9 +97,10 @@ void	bed(t_philo *philo)
 		pthread_mutex_lock(&philo->main_struct->print);
 		printf("nemukunai desu\n");
 		pthread_mutex_unlock(&philo->main_struct->print);
-			break;
+			break ;
 		}
-	}
+		}
+	//}
 }
 
 // idk what this function do pls help me
@@ -97,43 +110,50 @@ void	*routine(t_philo *philo)
 	pthread_mutex_lock(&(philo->main_struct->print));
 	printf("last meal:%llu\n", philo->lastmeal);
 	pthread_mutex_unlock(&(philo->main_struct->print));
-	long long	c_time;
+	//long long	c_time;
 	if (philo->id % 2 == 0)
 		usleep(42);
 	if (philo->id % 2 == 1)
 	{
 		while(1)
 		{
-			c_time = your_time();
-			if (c_time - philo->lastmeal >= philo->main_struct->time_to_eat)
-			{
-				pthread_mutex_lock(&(philo->main_struct->death));
-				philo->main_struct->dead = 0;
-				pthread_mutex_unlock(&(philo->main_struct->death));
-				break ;
-			}
+			//c_time = your_time();
+			// if (c_time - philo->lastmeal >= philo->main_struct->time_to_eat)
+			// {
+			// 	pthread_mutex_lock(&(philo->main_struct->death));
+			// 	philo->main_struct->dead = 1;
+			// 	pthread_mutex_unlock(&(philo->main_struct->death));
+			// 	break ;
+			// }
+			// else
+			// {
 			eat(philo);
 			if (philo->full == philo->main_struct->meal_amount)
 				break;
 			bed(philo);
-		}
+			}
+		//}
 	}
 	if (philo->id %2 == 0)
 	{
 		while(1)
 		{
-			if (c_time - philo->lastmeal >= philo->main_struct->time_to_eat)
-			{
-				pthread_mutex_lock(&(philo->main_struct->death));
-				philo->main_struct->dead = 0;
-				pthread_mutex_unlock(&(philo->main_struct->death));
-				break ;
-			}
+			// c_time = your_time();
+			// if (c_time - philo->lastmeal >= philo->main_struct->time_to_eat)
+			// {
+			// 	pthread_mutex_lock(&(philo->main_struct->death));
+			// 	philo->main_struct->dead = 1;
+			// 	pthread_mutex_unlock(&(philo->main_struct->death));
+			// 	break ;
+			// }
+			// else
+			// {
 			bed(philo);
 			eat(philo);
 			if (philo->full == philo->main_struct->meal_amount)
-				break;
-		}
+				break ;
+			}
+		//}
 	}
 	return (NULL);
 }
