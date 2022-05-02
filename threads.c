@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:34:12 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/02 17:41:37 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/02 21:21:24 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	create_mutex(t_struct *info)
 	i = 0;
 	while (i < info->philo_num)
 	{
-		if (pthread_mutex_init(&info->fork[i], NULL) != 0)
+		if (pthread_mutex_init(&(info->fork[i]), NULL) != 0)
 			return (1);
 		i++;
 	}
