@@ -1,0 +1,11 @@
+1. ARGC CHECK
+2. PHILO init
+3. THREAD Created
+4. BACKBONE ROUTINE
+5. THREAD JOIN
+
+Open Questions:
+-- what to pass as arg to routine? Tried linking 2 way struct, didnt work
+-- error checking for time of day?
+-- ERROR CHECK for mutex lock?
+-- LOCK double unlock problem? Or unlock when not locked (malloc mitai ni)
