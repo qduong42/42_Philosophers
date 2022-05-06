@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 10:58:53 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/02 20:56:46 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/06 16:53:50 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,11 @@ int			create_mutex(t_struct *info);
 
 int			init_philo(t_struct *info);
 int			parse_info(t_struct *info);
+
+/*
+**sub-routines
+*/
+
+void	eat(t_philo *philo);
 
 #endif
