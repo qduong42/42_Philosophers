@@ -6,14 +6,23 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:37:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/06 16:53:07 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/14 13:25:31 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "philo.h"
 #include <unistd.h>
-
+void	youdedbruh(t_philo *philo, long long curr)
+{
+	pthread_mutex_lock(&(philo->main_struct->death));
+	philo->main_struct->dead = 1;
+	pthread_mutex_unlock(&(philo->main_struct->death));
+	pthread_mutex_lock(&philo->main_struct->print);//
+	printf("時間%llu二：ここに死んでいました\n", curr);
+	pthread_mutex_unlock(&philo->main_struct->print);//
+	pthread_detach(philo->thread);
+}
 //./philo time time time (optional) returns 1 for error
 
 void	bed(t_philo *philo)
@@ -22,35 +31,30 @@ void	bed(t_philo *philo)
 	long long	curr;
 	long long	start;
 	start = your_time();
-		pthread_mutex_lock(&philo->main_struct->print);//
-		printf("%05llu %d is sleeping\n", your_time() - philo->main_struct->p_start_time, philo->id);
+	pthread_mutex_lock(&(philo->main_struct->death));
+	if (philo->main_struct->dead)
+	return ;
+	pthread_mutex_unlock(&(philo->main_struct->death));
+	pthread_mutex_lock(&philo->main_struct->print);//
+	printf("%05llu %d is sleeping\n", your_time() - philo->main_struct->p_start_time, philo->id);
 		pthread_mutex_unlock(&philo->main_struct->print);//
-	while(!philo->main_struct->dead)
+	while(1)
 	{
 		usleep(100);
 		curr = your_time();
 		dur = curr - start;
-		// pthread_mutex_lock(&philo->main_struct->print);
-		// printf("ID:%d dur:%llu neteimashita\n", philo->id, dur);
-		// pthread_mutex_unlock(&philo->main_struct->print);
-		if (dur >= philo->main_struct->time_to_sleep)
+		if (curr - philo->lastmeal >= philo->main_struct->time_to_eat)
 		{
-		// pthread_mutex_lock(&philo->main_struct->print);//
-		// printf("nemukunai desu\n");//
-		// pthread_mutex_unlock(&philo->main_struct->print);//
+			youdedbruh(philo, curr);
 			break ;
 		}
-		else if (curr - philo->lastmeal >= philo->main_struct->time_to_eat)
+		pthread_mutex_lock(&philo->main_struct->death);
+		if((dur >= philo->main_struct->time_to_sleep) && (!philo->main_struct->dead))
 		{
-			pthread_mutex_lock(&(philo->main_struct->death));
-			philo->main_struct->dead = 1;
-			pthread_mutex_unlock(&(philo->main_struct->death));
-			pthread_mutex_lock(&philo->main_struct->print);//
-			printf("時間%llu二：ここに死んでいました\n", curr);
-			pthread_mutex_unlock(&philo->main_struct->print);//
-			pthread_detach(philo->thread);
+			pthread_mutex_unlock(&philo->main_struct->death);
 			break ;
 		}
+		pthread_mutex_unlock(&philo->main_struct->death);
 	}
 }
 
@@ -58,27 +62,18 @@ void	bed(t_philo *philo)
 void	*routine(t_philo *philo)
 {
 	philo->lastmeal = your_time();
-	pthread_mutex_lock(&(philo->main_struct->print));
-	printf("last meal:%llu\n", philo->lastmeal);
-	pthread_mutex_unlock(&(philo->main_struct->print));
 	long long	c_time;
 	if (philo->id % 2 == 0)
 		usleep(42);
 	if (philo->id % 2 == 1)
 	{
-		while(!philo->main_struct->dead)
+		while(1)
 		{
 			c_time = your_time();
 			int ima = c_time - philo->lastmeal;
-			if (c_time - philo->lastmeal >= philo->main_struct->time_to_eat)
+			if (ima >= philo->main_struct->time_to_eat)
 			{
-				pthread_mutex_lock(&(philo->main_struct->death));
-				philo->main_struct->dead = 1;
-				pthread_mutex_unlock(&(philo->main_struct->death));
-				pthread_mutex_lock(&philo->main_struct->print);//
-				printf("%d三：ここに死んでいました\n",ima);
-				pthread_mutex_unlock(&philo->main_struct->print);//
-				pthread_detach(philo->thread);
+				youdedbruh(philo, c_time);
 				break ;
 			}
 			else
@@ -86,16 +81,30 @@ void	*routine(t_philo *philo)
 			eat(philo);
 			if (philo->full == philo->main_struct->meal_amount)
 				break;
+			pthread_mutex_lock(&(philo->main_struct->death));
+			if (philo->main_struct->dead)
+			{
+			pthread_detach(philo->thread);
+			break;
+			}
+			pthread_mutex_unlock(&(philo->main_struct->death));
 			bed(philo);
+			pthread_mutex_lock(&(philo->main_struct->death));
+			if (philo->main_struct->dead)
+			{
+			pthread_detach(philo->thread);
+			break;
+			}
+			pthread_mutex_unlock(&(philo->main_struct->death));
 			pthread_mutex_lock(&philo->main_struct->print);//
-			printf("%05llu %d is thinking\n", your_time() - philo->main_struct->p_start_time, philo->id);
+			printf("%05llu %d is thinking\n", (your_time() - philo->main_struct->p_start_time), philo->id);
 			pthread_mutex_unlock(&philo->main_struct->print);//
 			}
 		}
 	}
 	if (philo->id %2 == 0)
 	{
-		while(!philo->main_struct->dead)
+		while(1)
 		{
 			c_time = your_time();
 			if (c_time - philo->lastmeal >= philo->main_struct->time_to_eat)
@@ -112,7 +121,21 @@ void	*routine(t_philo *philo)
 			else
 			{
 			bed(philo);
+			pthread_mutex_lock(&(philo->main_struct->death));
+			if (philo->main_struct->dead)
+			{
+			pthread_detach(philo->thread);
+			break;
+			}
+			pthread_mutex_unlock(&(philo->main_struct->death));
 			eat(philo);
+			pthread_mutex_lock(&(philo->main_struct->death));
+			if (philo->main_struct->dead)
+			{
+			pthread_detach(philo->thread);
+			break;
+			}
+			pthread_mutex_unlock(&(philo->main_struct->death));
 			pthread_mutex_lock(&philo->main_struct->print);//
 			printf("%05llu %d is thinking\n", your_time() - philo->main_struct->p_start_time, philo->id);
 			pthread_mutex_unlock(&philo->main_struct->print);//

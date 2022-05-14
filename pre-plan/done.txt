@@ -5,8 +5,12 @@
 5. THREAD JOIN
 
 Open Questions:
--- what to pass as arg to routine? Tried linking 2 way struct, didnt work
 -- error checking for time of day?
 -- ERROR CHECK for mutex lock?
--- LOCK double unlock problem? Or unlock when not locked (malloc mitai ni) -> CANT HAPPEN I GUESS
--- When mutex lock for sleep/eat failed -> has to print think? -> NO
+what to pass as arg to routine? Tried linking 2 way struct, didnt work -> WORKED
+LOCK double unlock problem? Or unlock when not locked (malloc mitai ni) -> CANT HAPPEN I GUESS
+When mutex lock for sleep/eat failed -> has to print think? -> NO
+do u have to mutex lock just for CHECKING? or only when writing & checking (from multiple places) -> NO
+
+Problems:
+Exit condition ok?
