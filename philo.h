@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 10:58:53 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/14 13:20:37 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/14 20:01:27 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int			initial_arg_check(char **argv, t_struct *info);
 void		ft_puterror(char *s);
 void		ft_putendl(char *s);
 long long	your_time(void);
-void		youdedbruh(t_philo *philo, long long curr);
+void		death_check(t_philo *philo, char *s);
+
 
 /*
 ** Threads & mutexes

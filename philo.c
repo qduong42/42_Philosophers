@@ -6,23 +6,14 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:37:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/14 13:25:31 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/14 21:02:44 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "philo.h"
 #include <unistd.h>
-void	youdedbruh(t_philo *philo, long long curr)
-{
-	pthread_mutex_lock(&(philo->main_struct->death));
-	philo->main_struct->dead = 1;
-	pthread_mutex_unlock(&(philo->main_struct->death));
-	pthread_mutex_lock(&philo->main_struct->print);//
-	printf("時間%llu二：ここに死んでいました\n", curr);
-	pthread_mutex_unlock(&philo->main_struct->print);//
-	pthread_detach(philo->thread);
-}
+
 //./philo time time time (optional) returns 1 for error
 
 void	bed(t_philo *philo)
@@ -31,118 +22,40 @@ void	bed(t_philo *philo)
 	long long	curr;
 	long long	start;
 	start = your_time();
-	pthread_mutex_lock(&(philo->main_struct->death));
-	if (philo->main_struct->dead)
-	return ;
-	pthread_mutex_unlock(&(philo->main_struct->death));
-	pthread_mutex_lock(&philo->main_struct->print);//
-	printf("%05llu %d is sleeping\n", your_time() - philo->main_struct->p_start_time, philo->id);
-		pthread_mutex_unlock(&philo->main_struct->print);//
+	death_check((philo),"is sleeping");
 	while(1)
 	{
 		usleep(100);
 		curr = your_time();
 		dur = curr - start;
-		if (curr - philo->lastmeal >= philo->main_struct->time_to_eat)
+		if(dur >= philo->main_struct->time_to_sleep)
 		{
-			youdedbruh(philo, curr);
 			break ;
 		}
-		pthread_mutex_lock(&philo->main_struct->death);
-		if((dur >= philo->main_struct->time_to_sleep) && (!philo->main_struct->dead))
-		{
-			pthread_mutex_unlock(&philo->main_struct->death);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->main_struct->death);
 	}
 }
 
 // idk what this function do pls help me
 void	*routine(t_philo *philo)
 {
+	pthread_detach(philo->thread);
 	philo->lastmeal = your_time();
-	long long	c_time;
 	if (philo->id % 2 == 0)
 		usleep(42);
-	if (philo->id % 2 == 1)
+	while(17)
 	{
-		while(1)
+		pthread_mutex_lock(&(philo->main_struct->death));
+		if (philo->main_struct->dead)
 		{
-			c_time = your_time();
-			int ima = c_time - philo->lastmeal;
-			if (ima >= philo->main_struct->time_to_eat)
-			{
-				youdedbruh(philo, c_time);
-				break ;
-			}
-			else
-			{
-			eat(philo);
-			if (philo->full == philo->main_struct->meal_amount)
-				break;
-			pthread_mutex_lock(&(philo->main_struct->death));
-			if (philo->main_struct->dead)
-			{
-			pthread_detach(philo->thread);
-			break;
-			}
 			pthread_mutex_unlock(&(philo->main_struct->death));
-			bed(philo);
-			pthread_mutex_lock(&(philo->main_struct->death));
-			if (philo->main_struct->dead)
-			{
-			pthread_detach(philo->thread);
-			break;
-			}
-			pthread_mutex_unlock(&(philo->main_struct->death));
-			pthread_mutex_lock(&philo->main_struct->print);//
-			printf("%05llu %d is thinking\n", (your_time() - philo->main_struct->p_start_time), philo->id);
-			pthread_mutex_unlock(&philo->main_struct->print);//
-			}
+			return (NULL);
 		}
-	}
-	if (philo->id %2 == 0)
-	{
-		while(1)
-		{
-			c_time = your_time();
-			if (c_time - philo->lastmeal >= philo->main_struct->time_to_eat)
-			{
-				pthread_mutex_lock(&(philo->main_struct->death));
-				philo->main_struct->dead = 1;
-				pthread_mutex_unlock(&(philo->main_struct->death));
-				pthread_mutex_lock(&philo->main_struct->print);//
-				printf("四：ここに死んでいました\n");
-				pthread_mutex_unlock(&philo->main_struct->print);//
-				pthread_detach(philo->thread);
-				break ;
-			}
-			else
-			{
-			bed(philo);
-			pthread_mutex_lock(&(philo->main_struct->death));
-			if (philo->main_struct->dead)
-			{
-			pthread_detach(philo->thread);
-			break;
-			}
-			pthread_mutex_unlock(&(philo->main_struct->death));
-			eat(philo);
-			pthread_mutex_lock(&(philo->main_struct->death));
-			if (philo->main_struct->dead)
-			{
-			pthread_detach(philo->thread);
-			break;
-			}
-			pthread_mutex_unlock(&(philo->main_struct->death));
-			pthread_mutex_lock(&philo->main_struct->print);//
-			printf("%05llu %d is thinking\n", your_time() - philo->main_struct->p_start_time, philo->id);
-			pthread_mutex_unlock(&philo->main_struct->print);//
-			if (philo->full == philo->main_struct->meal_amount)
-				break ;
-			}
-		}
+		pthread_mutex_unlock(&(philo->main_struct->death));
+		eat(philo);
+		if (philo->full == philo->main_struct->meal_amount)
+			break ;
+		bed(philo);
+		death_check(philo, "is thinking");
 	}
 	return (NULL);
 }

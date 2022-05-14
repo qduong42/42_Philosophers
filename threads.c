@@ -6,26 +6,26 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:34:12 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/03 11:09:20 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/14 21:01:32 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	threads_join(t_struct *info)
-{
-	int	i;
+// int	threads_join(t_struct *info)
+// {
+// 	int	i;
 
-	i = 0;
-	while (i < info->philo_num)
-	{
-		if (pthread_join(info->philos[i].thread, NULL) == 1)
-			return (1);
-		ft_putendl("Thread joined");
-		i++;
-	}
-	return (0);
-}
+// 	i = 0;
+// 	while (i < info->philo_num)
+// 	{
+// 		if (pthread_join(info->philos[i].thread, NULL) == 1)
+// 			return (1);
+// 		ft_putendl("Thread joined");
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 int	threads_start(t_struct *info)
 {
