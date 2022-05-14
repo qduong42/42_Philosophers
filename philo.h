@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 10:58:53 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/14 13:20:37 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/14 17:55:38 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,6 @@ int			parse_info(t_struct *info);
 **sub-routines
 */
 
-void	eat(t_philo *philo);
+int			eat(t_philo *philo);
 
 #endif

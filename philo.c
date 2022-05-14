@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:37:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/14 13:25:31 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/14 18:10:37 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	youdedbruh(t_philo *philo, long long curr)
 	pthread_mutex_lock(&philo->main_struct->print);//
 	printf("時間%llu二：ここに死んでいました\n", curr);
 	pthread_mutex_unlock(&philo->main_struct->print);//
-	pthread_detach(philo->thread);
 }
 //./philo time time time (optional) returns 1 for error
 
@@ -65,83 +64,41 @@ void	*routine(t_philo *philo)
 	long long	c_time;
 	if (philo->id % 2 == 0)
 		usleep(42);
-	if (philo->id % 2 == 1)
+	while(1)
 	{
-		while(1)
+		c_time = your_time();
+		int ima = c_time - philo->lastmeal; // how long hasnt eaten since lastmeal?
+		if (ima >= philo->main_struct->time_to_eat)
 		{
-			c_time = your_time();
-			int ima = c_time - philo->lastmeal;
-			if (ima >= philo->main_struct->time_to_eat)
-			{
-				youdedbruh(philo, c_time);
-				break ;
-			}
-			else
-			{
-			eat(philo);
-			if (philo->full == philo->main_struct->meal_amount)
-				break;
-			pthread_mutex_lock(&(philo->main_struct->death));
-			if (philo->main_struct->dead)
-			{
-			pthread_detach(philo->thread);
-			break;
-			}
-			pthread_mutex_unlock(&(philo->main_struct->death));
-			bed(philo);
-			pthread_mutex_lock(&(philo->main_struct->death));
-			if (philo->main_struct->dead)
-			{
-			pthread_detach(philo->thread);
-			break;
-			}
-			pthread_mutex_unlock(&(philo->main_struct->death));
-			pthread_mutex_lock(&philo->main_struct->print);//
-			printf("%05llu %d is thinking\n", (your_time() - philo->main_struct->p_start_time), philo->id);
-			pthread_mutex_unlock(&philo->main_struct->print);//
-			}
+			youdedbruh(philo, c_time);
+			break ;
 		}
-	}
-	if (philo->id %2 == 0)
-	{
-		while(1)
+		else
 		{
-			c_time = your_time();
-			if (c_time - philo->lastmeal >= philo->main_struct->time_to_eat)
-			{
-				pthread_mutex_lock(&(philo->main_struct->death));
-				philo->main_struct->dead = 1;
-				pthread_mutex_unlock(&(philo->main_struct->death));
-				pthread_mutex_lock(&philo->main_struct->print);//
-				printf("四：ここに死んでいました\n");
-				pthread_mutex_unlock(&philo->main_struct->print);//
-				pthread_detach(philo->thread);
-				break ;
-			}
-			else
-			{
-			bed(philo);
-			pthread_mutex_lock(&(philo->main_struct->death));
-			if (philo->main_struct->dead)
-			{
-			pthread_detach(philo->thread);
+		if (eat(philo))
+		{
 			break;
-			}
-			pthread_mutex_unlock(&(philo->main_struct->death));
-			eat(philo);
-			pthread_mutex_lock(&(philo->main_struct->death));
-			if (philo->main_struct->dead)
-			{
-			pthread_detach(philo->thread);
+		}
+		if (philo->full == philo->main_struct->meal_amount)
 			break;
-			}
-			pthread_mutex_unlock(&(philo->main_struct->death));
-			pthread_mutex_lock(&philo->main_struct->print);//
-			printf("%05llu %d is thinking\n", your_time() - philo->main_struct->p_start_time, philo->id);
-			pthread_mutex_unlock(&philo->main_struct->print);//
-			if (philo->full == philo->main_struct->meal_amount)
-				break ;
-			}
+		pthread_mutex_lock(&(philo->main_struct->death));
+		if (philo->main_struct->dead)
+		{
+		pthread_mutex_unlock(&(philo->main_struct->death));
+		break;
+		}
+		pthread_mutex_unlock(&(philo->main_struct->death));
+		bed(philo);
+		pthread_mutex_lock(&(philo->main_struct->death));
+		if (philo->main_struct->dead)
+		{
+		pthread_mutex_unlock(&(philo->main_struct->death));
+		break;
+		}
+		pthread_mutex_unlock(&(philo->main_struct->death));
+		pthread_mutex_lock(&philo->main_struct->print);//
+		printf("%05llu %d is thinking\n", (your_time() - philo->main_struct->p_start_time), philo->id);
+		pthread_mutex_unlock(&philo->main_struct->print);//
 		}
 	}
 	return (NULL);
