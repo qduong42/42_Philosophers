@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:32:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/15 17:10:02 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/15 17:38:58 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,13 @@ void	death_set(t_struct *info)
 			i++;
 		usleep(69);
 		}
+		pthread_mutex_lock(&(info->last_meal));
 		if (info->fullaf == info->philo_num)
+		{
+			pthread_mutex_unlock(&(info->last_meal));
 			break ;
+		}
+		pthread_mutex_unlock(&(info->last_meal));
 	}
 }
 

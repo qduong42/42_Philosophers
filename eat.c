@@ -33,11 +33,11 @@ void	eat(t_philo *philo)
 			pthread_mutex_lock(&(philo->main_struct->last_meal));
 			philo->full++;
 			philo->lastmeal = your_time();
-			pthread_mutex_unlock(&(philo->main_struct->last_meal));
 			if (philo->full == philo->main_struct->meal_amount)
 			{
 				philo->main_struct->fullaf++;
 			}
+			pthread_mutex_unlock(&(philo->main_struct->last_meal));
 			pthread_mutex_unlock(philo->left_fork);
 			// 	death_check(philo, "has dropped a left fork");
 			pthread_mutex_unlock(philo->right_fork);
