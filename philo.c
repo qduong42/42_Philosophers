@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:37:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/15 17:03:36 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/15 17:29:00 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,6 @@ int	init_philo(t_struct *info)
 
 int	parse_info(t_struct *info)
 {
-	int	i;
-
-	i = 0;
 	info->philos = malloc(info->philo_num * sizeof(t_philo));
 	info->fork = malloc(info->philo_num * sizeof(pthread_mutex_t));
 	if (!info->philos || !info->fork)
