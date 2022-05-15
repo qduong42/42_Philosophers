@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:05:50 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/15 16:07:23 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/15 17:44:14 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	atoi_n_check(char *argv, int *a)
 
 long long	your_time(void)
 {
-	_STRUCT_TIMEVAL	time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);

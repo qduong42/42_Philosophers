@@ -6,14 +6,13 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 10:58:53 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/14 22:02:32 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/15 17:43:54 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <stdio.h>
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
