@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:32:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/14 21:01:36 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/15 17:10:02 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,54 @@
 
 void	death_set(t_struct *info)
 {
-	int i;
+	int	i;
 
 	while (1)
 	{
 		i = 0;
 		while (i < info->philo_num)
 		{
-			if (your_time() - info->philos[i].lastmeal >= info->time_to_die)
+			if (info->philos[i].full == info->meal_amount)
 			{
+				i++;
+				continue ;
+			}
+			pthread_mutex_lock(&(info->last_meal));
+			if (your_time() - (info->philos[i].lastmeal) >= info->time_to_die)
+			{
+				pthread_mutex_unlock(&(info->last_meal));
 				pthread_mutex_lock(&info->death);
 				info->dead = 1;
 				pthread_mutex_unlock(&info->death);
+				pthread_mutex_lock(&info->print);//
+				printf("%05llu %d もう死んだよ。助けて\n", ((your_time() - info->p_start_time)), i + 1);
+				pthread_mutex_unlock(&info->print);//
 				return ;
 			}
-			pthread_mutex_unlock(&info->death);
+			pthread_mutex_unlock(&(info->last_meal));
 			i++;
-		usleep(29);
+		usleep(69);
 		}
+		if (info->fullaf == info->philo_num)
+			break ;
 	}
+}
+
+void	free_it(t_struct *info)
+{
+	int	i;
+
+	i = 0;
+	while (i < info->philo_num)
+	{
+		pthread_mutex_destroy(&info->fork[i]);
+		i++;
+	}
+	free(info->fork);
+	pthread_mutex_destroy(&info->print);
+	pthread_mutex_destroy(&info->death);
+	pthread_mutex_destroy(&info->last_meal);
+	free(info->philos);
 }
 
 int	main(int argc, char **argv)
@@ -45,14 +74,14 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	if (initial_arg_check(argv, &info))
-		write(STDERR_FILENO, HOW, sizeof(HOW));
+		return (write(STDERR_FILENO, HOW, sizeof(HOW)));
 	if (parse_info(&info) == 1)
 		ft_puterror("Failed to create mallocs or thread");
 	if (threads_start(&info))
 		ft_puterror("Failed to start thread");
-	death_set(&info);	
-	//if (threads_join(&info))
+	death_set(&info);
+	free_it(&info);
+	// if (threads_join(&info))
 	// 	ft_puterror("Failed to join");
-	//destroy_stuff(&info);
 	return (0);
 }

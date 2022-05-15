@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 10:58:53 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/14 20:01:27 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/14 22:02:32 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ typedef struct s_struct
 	int					time_to_sleep; //set in initial_arg_Check
 	int					meal_amount; //set in initial_arg_Check
 	long long			p_start_time; //start time of program -> threads start
-	long long			lag;
+	pthread_mutex_t		last_meal;
 	int					dead;//dead or not
 	t_philo				*philos;
+	int					fullaf;
 	pthread_mutex_t		*fork; //malloced in parse info
 	pthread_mutex_t		print; //init in create_mutex
 	pthread_mutex_t		death; //init in create_mutex

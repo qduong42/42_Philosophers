@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:05:50 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/02 16:32:59 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/15 16:07:23 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	atoi_n_check(char *argv, int *a)
 	index = 0;
 	result = 0;
 	if (argv[0] == '-')
-		return (-1);
+		return (1);
 	if (argv[0] == '+')
 		index++;
 	while (argv[index])

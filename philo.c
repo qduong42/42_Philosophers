@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:37:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/14 21:02:44 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/15 17:03:36 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,11 @@ void	bed(t_philo *philo)
 void	*routine(t_philo *philo)
 {
 	pthread_detach(philo->thread);
+	pthread_mutex_lock(&(philo->main_struct->last_meal));
 	philo->lastmeal = your_time();
+	pthread_mutex_unlock(&(philo->main_struct->last_meal));
 	if (philo->id % 2 == 0)
-		usleep(42);
+		usleep(100);
 	while(17)
 	{
 		pthread_mutex_lock(&(philo->main_struct->death));
@@ -71,8 +73,11 @@ int	init_philo(t_struct *info)
 		info->philos[i].id = i + 1;
 		info->philos[i].left_fork = &info->fork[i];
 		info->philos[i].right_fork = &info->fork[(i + 1) % info->philo_num];
+		info->philos[i].lastmeal = your_time();
+		info->philos[i].full = 0;
 		i++;
 	}
+	info->fullaf = 0;
 	info->dead = 0;
 	return (0);
 }
