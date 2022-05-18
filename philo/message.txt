@@ -1,0 +1,62 @@
+WARNING: ThreadSanitizer: lock-order-inversion (potential deadlock) (pid=52491)
+  Cycle in lock order graph: M0 (0x7b2800000000) => M1 (0x7b2800000028) => M2 (0x7b2800000050) => M3 (0x7b2800000078) => M0
+
+  Mutex M1 acquired here while holding mutex M0 in thread T1:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4165 (libtsan.so.0+0x526fc)
+    #1 eat /home/caeadyen/Programming/eval/qduong/philo/eat.c:49 (philo+0x29ae)
+    #2 routine /home/caeadyen/Programming/eval/qduong/philo/philo.c:58 (philo+0x15de)
+
+  Mutex M0 previously acquired by the same thread here:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4165 (libtsan.so.0+0x526fc)
+    #1 eat /home/caeadyen/Programming/eval/qduong/philo/eat.c:47 (philo+0x297b)
+    #2 routine /home/caeadyen/Programming/eval/qduong/philo/philo.c:58 (philo+0x15de)
+
+  Mutex M2 acquired here while holding mutex M1 in thread T2:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4165 (libtsan.so.0+0x526fc)
+    #1 eat /home/caeadyen/Programming/eval/qduong/philo/eat.c:49 (philo+0x29ae)
+    #2 routine /home/caeadyen/Programming/eval/qduong/philo/philo.c:58 (philo+0x15de)
+
+  Mutex M1 previously acquired by the same thread here:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4165 (libtsan.so.0+0x526fc)
+    #1 eat /home/caeadyen/Programming/eval/qduong/philo/eat.c:47 (philo+0x297b)
+    #2 routine /home/caeadyen/Programming/eval/qduong/philo/philo.c:58 (philo+0x15de)
+
+  Mutex M3 acquired here while holding mutex M2 in thread T3:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4165 (libtsan.so.0+0x526fc)
+    #1 eat /home/caeadyen/Programming/eval/qduong/philo/eat.c:49 (philo+0x29ae)
+    #2 routine /home/caeadyen/Programming/eval/qduong/philo/philo.c:58 (philo+0x15de)
+
+  Mutex M2 previously acquired by the same thread here:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4165 (libtsan.so.0+0x526fc)
+    #1 eat /home/caeadyen/Programming/eval/qduong/philo/eat.c:47 (philo+0x297b)
+    #2 routine /home/caeadyen/Programming/eval/qduong/philo/philo.c:58 (philo+0x15de)
+
+  Mutex M0 acquired here while holding mutex M3 in thread T4:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4165 (libtsan.so.0+0x526fc)
+    #1 eat /home/caeadyen/Programming/eval/qduong/philo/eat.c:49 (philo+0x29ae)
+    #2 routine /home/caeadyen/Programming/eval/qduong/philo/philo.c:58 (philo+0x15de)
+
+  Mutex M3 previously acquired by the same thread here:
+    #0 pthread_mutex_lock ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:4165 (libtsan.so.0+0x526fc)
+    #1 eat /home/caeadyen/Programming/eval/qduong/philo/eat.c:47 (philo+0x297b)
+    #2 routine /home/caeadyen/Programming/eval/qduong/philo/philo.c:58 (philo+0x15de)
+
+  Thread T1 (tid=52493, running) created by main thread at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:962 (libtsan.so.0+0x5ea79)
+    #1 threads_start /home/caeadyen/Programming/eval/qduong/philo/threads.c:43 (philo+0x2580)
+    #2 main /home/caeadyen/Programming/eval/qduong/philo/main.c:101 (philo+0x239d)
+
+  Thread T2 (tid=52494, running) created by main thread at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:962 (libtsan.so.0+0x5ea79)
+    #1 threads_start /home/caeadyen/Programming/eval/qduong/philo/threads.c:43 (philo+0x2580)
+    #2 main /home/caeadyen/Programming/eval/qduong/philo/main.c:101 (philo+0x239d)
+
+  Thread T3 (tid=52495, running) created by main thread at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:962 (libtsan.so.0+0x5ea79)
+    #1 threads_start /home/caeadyen/Programming/eval/qduong/philo/threads.c:43 (philo+0x2580)
+    #2 main /home/caeadyen/Programming/eval/qduong/philo/main.c:101 (philo+0x239d)
+
+  Thread T4 (tid=52496, running) created by main thread at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:962 (libtsan.so.0+0x5ea79)
+    #1 threads_start /home/caeadyen/Programming/eval/qduong/philo/threads.c:43 (philo+0x2580)
+    #2 main /home/caeadyen/Programming/eval/qduong/philo/main.c:101 (philo+0x239d)
