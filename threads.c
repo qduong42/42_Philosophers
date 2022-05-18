@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:34:12 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/15 16:24:53 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/18 11:45:04 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ int	threads_join(t_struct *info)
 	}
 	return (0);
 }
+	//printf("P_Start Time:%llu\n", info->p_start_time);
+	//ID will be 1, 2, 3 while i is 0, 1, 2
+	// pthread_mutex_lock(&info->print);//
+	// ft_putendl("Thread created");//
+	// pthread_mutex_unlock(&info->print);//
 
 int	threads_start(t_struct *info)
 {
@@ -33,15 +38,11 @@ int	threads_start(t_struct *info)
 
 	i = 0;
 	info->p_start_time = your_time();
-	//printf("P_Start Time:%llu\n", info->p_start_time);
-	while (i < info->philo_num) //ID will be 1, 2, 3 while i is 0, 1, 2
+	while (i < info->philo_num)
 	{
 		if (pthread_create(&info->philos[i].thread, NULL, \
 		(void *(*)(void *)) routine, &(info->philos[i])) != 0)
 			return (1);
-		// pthread_mutex_lock(&info->print);//
-		// ft_putendl("Thread created");//
-		// pthread_mutex_unlock(&info->print);//
 		i++;
 	}
 	return (0);

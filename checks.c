@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:30:34 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/15 17:36:19 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/18 11:58:08 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,5 @@ int	initial_arg_check(char **argv, t_struct *info)
 		return (1);
 	if (argv[5] && (atoi_n_check(argv[5], &info->meal_amount)))
 		return (1);
-	//ft_putendl("arg check done");
 	return (0);
 }

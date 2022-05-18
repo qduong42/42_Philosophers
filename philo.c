@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:37:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/15 17:29:00 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/18 12:06:15 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,28 @@
 
 //./philo time time time (optional) returns 1 for error
 
-void	bed(t_philo *philo)
+static void	bed(t_philo *philo)
 {
 	long long	dur;
 	long long	curr;
 	long long	start;
+
 	start = your_time();
-	death_check((philo),"is sleeping");
-	while(1)
+	death_check((philo), "is sleeping");
+	while (1)
 	{
 		usleep(100);
 		curr = your_time();
 		dur = curr - start;
-		if(dur >= philo->main_struct->time_to_sleep)
+		if (dur >= philo->main_struct->time_to_sleep)
 		{
 			break ;
 		}
 	}
 }
 
-// idk what this function do pls help me
+// thread routine
+
 void	*routine(t_philo *philo)
 {
 	pthread_detach(philo->thread);
@@ -44,7 +46,7 @@ void	*routine(t_philo *philo)
 	pthread_mutex_unlock(&(philo->main_struct->last_meal));
 	if (philo->id % 2 == 0)
 		usleep(100);
-	while(17)
+	while (17)
 	{
 		pthread_mutex_lock(&(philo->main_struct->death));
 		if (philo->main_struct->dead)
@@ -62,7 +64,7 @@ void	*routine(t_philo *philo)
 	return (NULL);
 }
 
-int	init_philo(t_struct *info)
+static int	init_philo(t_struct *info)
 {
 	int	i;
 
@@ -88,9 +90,8 @@ int	parse_info(t_struct *info)
 	info->fork = malloc(info->philo_num * sizeof(pthread_mutex_t));
 	if (!info->philos || !info->fork)
 		return (1);
-	if (create_mutex(info)) //create mutex before initiating them
+	if (create_mutex(info))
 		ft_puterror("Failed to create mutexes");
-	//ft_putendl("Malloc done");
 	init_philo(info);
 	return (0);
 }
