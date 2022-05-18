@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:37:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/18 14:56:32 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/18 15:27:02 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ static void	bed(t_philo *philo)
 }
 
 	// thread routine
+	// pthread_detach(philo->thread);
 
 void	*routine(t_philo *philo)
 {
-	pthread_detach(philo->thread);
 	pthread_mutex_lock(&(philo->main_struct->last_meal));
 	philo->lastmeal = your_time();
 	pthread_mutex_unlock(&(philo->main_struct->last_meal));

@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:32:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/18 15:23:37 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/18 15:28:45 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,6 @@ static void	free_it(t_struct *info)
 	free(info->philos);
 }
 
-	// if (threads_join(&info))
-	// 	ft_puterror("Failed to join");
-
 int	main(int argc, char **argv)
 {
 	t_struct	info;
@@ -102,6 +99,8 @@ int	main(int argc, char **argv)
 	if (threads_start(&info))
 		ft_puterror("Failed to start thread");
 	death_set(&info);
+	if (threads_join(&info))
+		ft_puterror("Failed to join");
 	free_it(&info);
 	return (0);
 }
