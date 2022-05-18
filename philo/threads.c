@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:34:12 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/18 11:45:04 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/18 19:49:09 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	threads_join(t_struct *info)
 	{
 		if (pthread_join(info->philos[i].thread, NULL) == 1)
 			return (1);
-		ft_putendl("Thread joined");
 		i++;
 	}
 	return (0);

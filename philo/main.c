@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:32:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/18 15:28:45 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/18 19:49:51 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,8 @@ static void	death_set(t_struct *info)
 		while (++i < info->philo_num)
 		{
 			pthread_mutex_lock(&(info->last_meal));
-			if (info->philos[i++].full == info->meal_amount)
-			{
-				pthread_mutex_unlock(&(info->last_meal));
-				continue ;
-			}
+			if (info->philos[i].full == info->meal_amount)
+				i++;
 			else if (your_time() - (info->philos[i].lastmeal) \
 			>= info->time_to_die)
 			{
