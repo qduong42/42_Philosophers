@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:37:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/18 19:48:02 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/23 14:37:23 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,18 @@ void	sleepornot(t_philo *philo)
 	{
 		if (philo->id % 3 != 0)
 			usleep(1000 * philo->main_struct->time_to_eat * \
-			(philo->id % 3) - 15000);
+			(philo->id % 3) - 10000);
 	}
 	else
 	{
 		if (philo->id % 2 == 0)
-			usleep(1000 * philo->main_struct->time_to_eat - 15000);
+			usleep(1000 * philo->main_struct->time_to_eat - 10000);
 	}
 }
 
 void	*routine(t_philo *philo)
 {
+	sleepornot(philo);
 	pthread_mutex_lock(&(philo->main_struct->last_meal));
 	philo->lastmeal = your_time();
 	pthread_mutex_unlock(&(philo->main_struct->last_meal));
