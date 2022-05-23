@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:37:30 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/23 16:58:22 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/24 00:02:38 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void	sleepornot(t_philo *philo)
 
 void	*routine(t_philo *philo)
 {
+	philo->lastmeal = your_time();
 	if ((philo->main_struct->philo_num) != 1)
 		sleepornot(philo);
 	pthread_mutex_lock(&(philo->main_struct->last_meal));
-	philo->lastmeal = your_time();
 	pthread_mutex_unlock(&(philo->main_struct->last_meal));
 	while (17 && (philo->main_struct->philo_num) != 1)
 	{

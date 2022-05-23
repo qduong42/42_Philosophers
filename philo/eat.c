@@ -6,7 +6,7 @@
 /*   By: qduong <qduong@students.42wolfsburg.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 11:58:58 by qduong            #+#    #+#             */
-/*   Updated: 2022/05/23 16:53:49 by qduong           ###   ########.fr       */
+/*   Updated: 2022/05/24 00:05:12 by qduong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	set_full(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->main_struct->last_meal));
 	philo->full++;
-	philo->lastmeal = your_time();
+	//philo->lastmeal = your_time();
 	if (philo->full == philo->main_struct->meal_amount)
 		philo->main_struct->fullaf++;
 	pthread_mutex_unlock(&(philo->main_struct->last_meal));
@@ -44,6 +44,9 @@ void	eat(t_philo *philo)
 	long long	curr;
 	long long	start;
 
+	pthread_mutex_lock(&(philo->main_struct->last_meal));
+	philo->lastmeal = your_time();
+	pthread_mutex_unlock(&(philo->main_struct->last_meal));
 	pthread_mutex_lock(philo->left_fork);
 	death_check(philo, "has taken a left fork");
 	pthread_mutex_lock(philo->right_fork);
